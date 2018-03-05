@@ -26,17 +26,13 @@ mod krb5;
 mod util;
 
 use failure::ResultExt;
-use fs2::FileExt;
 use hdfs::Hdfs;
 use krb5::Krb5;
-use std::fs::{File, OpenOptions};
-use std::io::Read;
-use std::path::Path;
 use std::process;
 use std::thread;
 use std::time::Duration;
 use structopt::StructOpt;
-use util::error::{ErrorKind, PathError, Result};
+use util::error::{ErrorKind, Result};
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "rs-hdfs-report-conf",
@@ -76,14 +72,6 @@ struct KInitConfig<'a> {
     auth: krb5::Auth<'a>,
 }
 
-pub fn read_from_file<P: AsRef<Path>>(p: P) -> Result<String> {
-    let mut buf = String::new();
-    let mut file = File::open(p.as_ref()).context(ErrorKind::FileIo)?;
-    file.read_to_string(&mut buf)
-        .context(ErrorKind::FileIo)?;
-    Ok(buf)
-}
-
 fn run_impl(conf: &Config) -> Result<()> {
     let krb5 = Krb5::new()?;
     let hdfs = Hdfs::new()?;
@@ -97,7 +85,7 @@ fn run_impl(conf: &Config) -> Result<()> {
 
 fn run(conf: &Config) -> Result<()> {
     // to check if the process is already running as another PID
-    let _flock = lock_file(&conf.general.lock_file)?;
+    let _flock = util::lock_file(&conf.general.lock_file)?;
 
     match conf.general.repeat_delay {
         Some(repeat_delay) => loop {
@@ -111,7 +99,7 @@ fn run(conf: &Config) -> Result<()> {
 fn init<'a>() -> Result<Config<'a>> {
     let arg_conf = ArgConf::from_args();
 
-    let conf: Config = toml::from_str(&read_from_file(&arg_conf.conf)?)
+    let conf: Config = toml::from_str(&util::read_from_file(&arg_conf.conf)?)
         .context(ErrorKind::TomlConfigParse)?;
 
     match conf.general.log_conf_path {
@@ -123,30 +111,6 @@ fn init<'a>() -> Result<Config<'a>> {
     }
 
     Ok(conf)
-}
-
-fn lock_file<P: AsRef<Path>>(file_path: P) -> Result<File> {
-    let file_path = file_path.as_ref();
-
-    let flock = OpenOptions::new()
-        .write(true)
-        .create(true)
-        .open(file_path)
-        .map_err(|e| PathError {
-            path: file_path.to_owned(),
-            inner: e,
-        })
-        .context(ErrorKind::LockFileOpen)?;
-
-    flock
-        .try_lock_exclusive()
-        .map_err(|e| PathError {
-            path: file_path.to_owned(),
-            inner: e,
-        })
-        .context(ErrorKind::LockFileExclusiveLock)?;
-
-    Ok(flock)
 }
 
 fn print_run_status(res: &Result<()>) {

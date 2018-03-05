@@ -14,34 +14,22 @@ pub enum ErrorKind {
     #[fail(display = "Default logger initialization error")]
     DefaultLoggerInit,
 
-    #[fail(display = "Directory flag is unexpectedly empty")]
-    DirFlagEmpty,
-
-    #[fail(display = "Unable to create directories for copying to destination")]
-    DirsCreate,
-
     #[fail(display = "Error piping password echo")]
     EchoPwPipe,
 
     #[fail(display = "File I/O error")]
     FileIo,
 
-    #[fail(display = "Error invoking hdfs dfs -copyToLocal")]
-    HdfsCopyToLocal,
-
-    #[fail(display = "Error invoking hdfs dfs -ls")]
-    HdfsDfsLs,
-
-    #[fail(display = "Unable to find hdfs command from which")]
+    #[fail(display = "Cannot find hdfs command from which")]
     HdfsNotAvailable,
 
-    #[fail(display = "Error creating regex for hdfs matches")]
-    HdfsRegexMatch,
+    #[fail(display = "Error running hdfs dfs -df command")]
+    HdfsDfCmd,
 
     #[fail(display = "kinit for username and keytab combi returns error")]
     KinitKeytab,
 
-    #[fail(display = "Unable to find kinit command from which")]
+    #[fail(display = "Cannot find kinit command from which")]
     KinitNotAvailable,
 
     #[fail(display = "kinit for username and password combi returns error")]
@@ -52,12 +40,6 @@ pub enum ErrorKind {
 
     #[fail(display = "Lock file exclusive lock error")]
     LockFileExclusiveLock,
-
-    #[fail(display = "Unable to parse naive date time")]
-    NaiveDateTimeParse,
-
-    #[fail(display = "Cannot parse hdfs dfs -df filesystem value")]
-    ParseHdfsDfFilesystemValue,
 
     #[fail(display = "Cannot parse hdfs dfs -df size value")]
     ParseHdfsDfSizeValue,
@@ -88,9 +70,6 @@ pub enum ErrorKind {
 
     #[fail(display = "Conversion from UTF8 stdout to string fail")]
     StdoutUtf8Conversion,
-
-    #[fail(display = "Unable to strip root '/' from path")]
-    StripRootPath,
 
     #[fail(display = "TOML config parse error")]
     TomlConfigParse,
