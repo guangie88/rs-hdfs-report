@@ -1,5 +1,5 @@
 use failure::{Backtrace, Context, Fail};
-use regex;
+use regex::Regex;
 use std;
 use std::fmt::{self, Display};
 use std::path::PathBuf;
@@ -56,11 +56,20 @@ pub enum ErrorKind {
     #[fail(display = "Unable to parse naive date time")]
     NaiveDateTimeParse,
 
-    #[fail(display = "Unable to parse file size from regex capture")]
-    RegexCapFileSizeParse,
+    #[fail(display = "Cannot parse hdfs dfs -df filesystem value")]
+    ParseHdfsDfFilesystemValue,
 
-    #[fail(display = "Unable to regex capture permissions")]
-    RegexCapPerm,
+    #[fail(display = "Cannot parse hdfs dfs -df size value")]
+    ParseHdfsDfSizeValue,
+
+    #[fail(display = "Cannot parse hdfs dfs -df used value")]
+    ParseHdfsDfUsedValue,
+
+    #[fail(display = "Cannot capture values from hdfs dfs -df extraction")]
+    RegexHdfsDfValuesCap,
+
+    #[fail(display = "Cannot get initial hdfs dfs -df regex capture")]
+    RegexInitialHdfsDfCap,
 
     #[fail(display = "Specialized logger initialization error")]
     SpecializedLoggerInit,
@@ -116,17 +125,23 @@ where
     pub inner: E,
 }
 
-#[derive(Debug, Fail)]
-#[fail(display = "{{ target: {}, inner: {} }}", target, inner)]
-pub struct RegexError {
-    pub target: String,
-    pub inner: regex::Error,
+#[derive(Debug, Fail, Getters)]
+#[fail(display = "{{ pattern: {}, target: {} }}", pattern, target)]
+pub struct RegexCaptureError {
+    pattern: String,
+    target: String,
 }
 
-#[derive(Debug, Fail)]
-#[fail(display = "{{ perm: {} }}", perm)]
-pub struct PermError {
-    pub perm: String,
+impl RegexCaptureError {
+    pub fn new<T>(pattern: &Regex, target: T) -> RegexCaptureError
+    where
+        T: Into<String>,
+    {
+        RegexCaptureError {
+            pattern: pattern.as_str().to_owned(),
+            target: target.into(),
+        }
+    }
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

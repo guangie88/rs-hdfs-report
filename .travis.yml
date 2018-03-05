@@ -10,7 +10,7 @@ before_script:
   - docker-compose -f docker-compose.build.yml run clean
   - git reset --hard
 script:
-  - docker-compose -f docker-compose.lint-test.yml run lint-test-rs-hdfs-report
+  - docker-compose -f docker-compose.lint-test.yml run lint-test
 branches:
   only:
     - develop
