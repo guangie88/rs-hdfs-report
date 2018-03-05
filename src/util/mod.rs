@@ -25,7 +25,9 @@ pub fn extract_child_stdout(child: Child) -> Result<ChildStdout> {
                     .read_to_string(&mut msg)
                     .context(ErrorKind::StderrRead)?;
 
-                Ok(MsgError { msg }.context(ErrorKind::StderrValidMsg).into())
+                Ok(MsgError { msg }
+                    .context(ErrorKind::StderrValidMsg)
+                    .into())
             });
 
         match msg_err {
@@ -54,7 +56,8 @@ pub fn extract_output_stdout_str(output: Output) -> Result<String> {
 pub fn read_from_file<P: AsRef<Path>>(p: P) -> Result<String> {
     let mut buf = String::new();
     let mut file = File::open(p.as_ref()).context(ErrorKind::FileIo)?;
-    file.read_to_string(&mut buf).context(ErrorKind::FileIo)?;
+    file.read_to_string(&mut buf)
+        .context(ErrorKind::FileIo)?;
     Ok(buf)
 }
 

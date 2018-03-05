@@ -68,12 +68,20 @@ fn create_and_check_fluent<'a>(
 }
 
 fn run_impl(conf: &Config) -> Result<()> {
+    let fluent = create_and_check_fluent(conf)?;
+
     let krb5 = Krb5::new()?;
     let hdfs = Hdfs::new()?;
 
     krb5.kinit(&conf.kinit.login, &conf.kinit.auth)?;
     debug!("Kerberos kinit is successful");
+
     let storage = hdfs.df("/")?;
+
+    fluent
+        .clone()
+        .post(&storage)
+        .context(ErrorKind::FluentPostTaggedRecord)?;
 
     Ok(())
 }
@@ -81,7 +89,6 @@ fn run_impl(conf: &Config) -> Result<()> {
 fn run(conf: &Config) -> Result<()> {
     // to check if the process is already running as another PID
     let _flock = util::lock_file(&conf.general.lock_file)?;
-    let fluent = create_and_check_fluent(conf)?;
 
     match conf.general.repeat_delay {
         Some(repeat_delay) => loop {
