@@ -1,4 +1,4 @@
-# Test Server for `rs-hdfs-to-local`
+# Test Server for `rs-hdfs-report`
 
 The test server uses Docker image `nlesc/xenon-hdfs-kerberos:latest` and exposes
 the relevant ports.

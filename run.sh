@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./rs-hdfs-to-local
+./rs-hdfs-report

@@ -1,7 +1,7 @@
 [general]
 # optional
-log_conf_path = "./config/rs-hdfs-to-local-log.yml"
-lock_file = "/var/lock/rs-hdfs-to-local.lock"
+log_conf_path = "./config/rs-hdfs-report-log.yml"
+lock_file = "/var/lock/rs-hdfs-report.lock"
 # optional
 repeat_delay = "5 s"
 

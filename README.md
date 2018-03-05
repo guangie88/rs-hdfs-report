@@ -1,4 +1,4 @@
-# `rs-hdfs-to-local`
+# `rs-hdfs-report`
 
 Rust project to perform HDFS file copy from Kerberos protected HDFS server to
 local storage, via regex matches. Relies heavily on the built Docker environment
@@ -23,7 +23,7 @@ docker-compose up --build app
 ```
 
 The above command will build the Docker image with the statically compiled
-`rs-hdfs-to-local` executable, together with `config/rs-hdfs-to-local.toml` and
+`rs-hdfs-report` executable, together with `config/rs-hdfs-report.toml` and
 `config/rs-hfds-to-local-log.yml`.
 
 The above command is only useful if there is a corresponding server to respond

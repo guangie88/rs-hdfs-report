@@ -1,4 +1,4 @@
-#![cfg_attr(feature = "cargo-clippy", deny(clippy))]
+#![cfg_attr(feature = "cargo-clippy", deny(warnings))]
 
 #[macro_use]
 extern crate bitflags;
@@ -40,11 +40,11 @@ use structopt::StructOpt;
 use util::error::{ErrorKind, PathError, RegexError, Result};
 
 #[derive(StructOpt, Debug)]
-#[structopt(name = "rs-hdfs-to-local-conf",
-            about = "Configuration for Rust HDFS-to-Local")]
+#[structopt(name = "rs-hdfs-report-conf",
+            about = "Configuration for Rust hdfs-report")]
 struct ArgConf {
     #[structopt(short = "c", long = "conf",
-                default_value = "config/rs-hdfs-to-local.toml",
+                default_value = "config/rs-hdfs-report.toml",
                 help = "Configuration file path")]
     conf: String,
 }
@@ -95,8 +95,7 @@ fn strip_root(path: &Path) -> Result<&Path> {
 pub fn read_from_file<P: AsRef<Path>>(p: P) -> Result<String> {
     let mut buf = String::new();
     let mut file = File::open(p.as_ref()).context(ErrorKind::FileIo)?;
-    file.read_to_string(&mut buf)
-        .context(ErrorKind::FileIo)?;
+    file.read_to_string(&mut buf).context(ErrorKind::FileIo)?;
     Ok(buf)
 }
 
@@ -113,9 +112,7 @@ fn hdfs_recurse(
             hdfs_recurse(hdfs, copy_to_root, &entry.path, re_matches)?;
         } else {
             // only apply matches on files
-            let is_match = re_matches
-                .iter()
-                .any(|re| re.is_match(&entry.path));
+            let is_match = re_matches.iter().any(|re| re.is_match(&entry.path));
 
             if is_match {
                 let copy_from = &entry.path;
@@ -137,10 +134,7 @@ fn hdfs_recurse(
                 let copy_to = Path::new(copy_to_root).join(copy_from_stripped);
 
                 if copy_to.exists() {
-                    debug!(
-                        "NOT COPYING {:?}, {:?} EXISTS",
-                        copy_from, copy_to
-                    );
+                    debug!("NOT COPYING {:?}, {:?} EXISTS", copy_from, copy_to);
                 } else {
                     hdfs.copy_to_local(copy_from, &copy_to.to_string_lossy())?;
                     debug!("COPY {:?} TO {:?}", copy_from, copy_to);
@@ -173,12 +167,7 @@ fn run_impl(conf: &Config) -> Result<()> {
 
     krb5.kinit(&conf.kinit.login, &conf.kinit.auth)?;
     debug!("Kerberos kinit is successful");
-    hdfs_recurse(
-        &hdfs,
-        &conf.hdfs.copy_to,
-        &conf.hdfs.path,
-        &re_matches,
-    )?;
+    hdfs_recurse(&hdfs, &conf.hdfs.copy_to, &conf.hdfs.path, &re_matches)?;
 
     Ok(())
 }

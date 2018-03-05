@@ -2,5 +2,5 @@ version: '2'
 services:
   app:
     build: .
-    container_name: rs-hdfs-to-local
+    container_name: rs-hdfs-report
     network_mode: host
