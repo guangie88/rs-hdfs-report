@@ -1,0 +1,25 @@
+[general]
+# optional
+log_conf_path = "./config/rs-hdfs-to-local-log.yml"
+lock_file = "/var/lock/rs-hdfs-to-local.lock"
+# optional
+repeat_delay = "5 s"
+
+[hdfs]
+path = "/"
+matches = ['.+/file.']
+copy_to = "./dst"
+
+[kinit]
+# For Password
+login = "xenon"
+# For Keytab
+# login = "hdfs/localhost@esciencecenter.nl"
+
+[kinit.auth]
+# type is "Password" / "Keytab"
+type = "Password"
+value = "javagat"
+
+# type = "Keytab"
+# value = "./server/hdfs.keytab"

@@ -1,0 +1,26 @@
+[package]
+name = "rs-hdfs-to-local"
+version = "0.2.0"
+authors = ["Chen Weiguang <chen.weiguang@gmail.com>"]
+
+[dependencies]
+bitflags = "=1.0.1"
+chrono = "=0.4.0"
+failure = "=0.1.1"
+fs2 = "=0.4.3"
+lazy_static = "=1.0.0"
+log = "=0.4.1"
+log4rs = "=0.8.0"
+which = { git = "https://github.com/fangyuanziti/which-rs.git", rev = "53d5123" }
+regex = "=0.2.5"
+serde = "=1.0.27"
+serde_derive = "=1.0.27"
+serde-humantime = { git = "https://github.com/tailhook/serde-humantime.git", rev = "f76450e"}
+simple_logger = "=0.5.0"
+structopt = "=0.2.4"
+structopt-derive = "=0.2.4"
+toml = "=0.4.5"
+
+[[bin]]
+name = "rs-hdfs-to-local"
+path = "src/main.rs"

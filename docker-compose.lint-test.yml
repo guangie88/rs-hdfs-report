@@ -1,0 +1,11 @@
+version: '2'
+services:
+  lint-test-rs-hdfs-to-local:
+    build:
+      context: .
+      dockerfile: Dockerfile-lint-test
+    container_name: lint-test-rs-hdfs-to-local
+    command:
+      - bash
+      - '-c'
+      - 'rustfmt src/**.rs --write-mode=diff && cargo clippy && cargo test'

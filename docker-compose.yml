@@ -1,0 +1,6 @@
+version: '2'
+services:
+  app:
+    build: .
+    container_name: rs-hdfs-to-local
+    network_mode: host
