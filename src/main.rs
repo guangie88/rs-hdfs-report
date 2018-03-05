@@ -4,7 +4,7 @@
 extern crate derive_getters;
 #[macro_use]
 extern crate failure;
-extern crate fs2;
+extern crate fruently;
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
@@ -21,55 +21,50 @@ extern crate structopt;
 extern crate structopt_derive;
 extern crate toml;
 
+mod conf;
 mod hdfs;
 mod krb5;
 mod util;
 
+use conf::{ArgConf, Config};
 use failure::ResultExt;
+use fruently::fluent::Fluent;
+use fruently::forwardable::JsonForwardable;
+use fruently::retry_conf::RetryConf;
 use hdfs::Hdfs;
 use krb5::Krb5;
+use std::path::Path;
 use std::process;
 use std::thread;
-use std::time::Duration;
 use structopt::StructOpt;
 use util::error::{ErrorKind, Result};
 
-#[derive(StructOpt, Debug)]
-#[structopt(name = "rs-hdfs-report-conf",
-            about = "Configuration for Rust hdfs-report")]
-struct ArgConf {
-    #[structopt(short = "c", long = "conf",
-                default_value = "config/rs-hdfs-report.toml",
-                help = "Configuration file path")]
-    conf: String,
-}
+fn create_and_check_fluent<'a>(
+    conf: &'a Config,
+) -> Result<Fluent<'a, &'a String>> {
+    let fluent_conf = RetryConf::new()
+        .max(conf.fluentd.try_count)
+        .multiplier(conf.fluentd.multiplier);
 
-#[derive(Deserialize, Debug)]
-struct Config<'a> {
-    general: GeneralConfig,
-    hdfs: HdfsConfig,
-    kinit: KInitConfig<'a>,
-}
+    let fluent_conf = match conf.fluentd.store_file_path {
+        Some(ref store_file_path) => {
+            fluent_conf.store_file(Path::new(store_file_path).to_owned())
+        }
+        None => fluent_conf,
+    };
 
-#[derive(Deserialize, Debug)]
-struct GeneralConfig {
-    log_conf_path: Option<String>,
-    lock_file: String,
-    #[serde(with = "serde_humantime")]
-    repeat_delay: Option<Duration>,
-}
+    let fluent = Fluent::new_with_conf(
+        &conf.fluentd.address,
+        conf.fluentd.tag.as_str(),
+        fluent_conf,
+    );
 
-#[derive(Deserialize, Debug)]
-struct HdfsConfig {
-    path: String,
-    matches: Vec<String>,
-    copy_to: String,
-}
+    fluent
+        .clone()
+        .post("rs-hdfs-report-log-initialization")
+        .context(ErrorKind::FluentInitCheck)?;
 
-#[derive(Deserialize, Debug)]
-struct KInitConfig<'a> {
-    login: String,
-    auth: krb5::Auth<'a>,
+    Ok(fluent)
 }
 
 fn run_impl(conf: &Config) -> Result<()> {
@@ -86,6 +81,7 @@ fn run_impl(conf: &Config) -> Result<()> {
 fn run(conf: &Config) -> Result<()> {
     // to check if the process is already running as another PID
     let _flock = util::lock_file(&conf.general.lock_file)?;
+    let fluent = create_and_check_fluent(conf)?;
 
     match conf.general.repeat_delay {
         Some(repeat_delay) => loop {

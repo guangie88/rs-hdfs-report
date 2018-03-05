@@ -20,6 +20,12 @@ pub enum ErrorKind {
     #[fail(display = "File I/O error")]
     FileIo,
 
+    #[fail(display = "Initial fluent post check error")]
+    FluentInitCheck,
+
+    #[fail(display = "Fluent post from tagged record error")]
+    FluentPostTaggedRecord,
+
     #[fail(display = "Cannot find hdfs command from which")]
     HdfsNotAvailable,
 
