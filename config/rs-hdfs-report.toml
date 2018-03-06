@@ -20,14 +20,14 @@ path = "/"
 
 [kinit]
 # For Password
-login = "xenon"
+# login = "xenon"
 # For Keytab
-# login = "hdfs/localhost@esciencecenter.nl"
+login = "hdfs/localhost@esciencecenter.nl"
 
 [kinit.auth]
 # type is "Password" / "Keytab"
-type = "Password"
-value = "javagat"
+# type = "Password"
+# value = "javagat"
 
-# type = "Keytab"
-# value = "./server/hdfs.keytab"
+type = "Keytab"
+value = "./servers/hdfs-krb5/krb5.keytab"
