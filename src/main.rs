@@ -21,6 +21,10 @@ extern crate structopt;
 extern crate structopt_derive;
 extern crate toml;
 
+#[cfg(test)]
+#[macro_use]
+extern crate indoc;
+
 mod conf;
 mod error;
 mod hdfs;
