@@ -1,11 +1,9 @@
 extern crate fs2;
 extern crate structopt;
 
-pub mod error;
-
 use failure::{Fail, ResultExt};
 use self::fs2::FileExt;
-use self::error::{CodeMsgError, Error, ErrorKind, MsgError, PathError, Result};
+use super::error::{CodeMsgError, Error, ErrorKind, MsgError, PathError, Result};
 
 use std::fs::{File, OpenOptions};
 use std::io::Read;

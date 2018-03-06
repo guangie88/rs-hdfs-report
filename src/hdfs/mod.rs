@@ -9,8 +9,8 @@ use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::str;
 
+use super::error::{ErrorKind, RegexCaptureError, Result};
 use super::util::extract_output_stdout_str;
-use super::util::error::{ErrorKind, RegexCaptureError, Result};
 
 const HDFS: &str = "hdfs";
 const DFS: &str = "dfs";

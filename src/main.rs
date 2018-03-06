@@ -22,11 +22,13 @@ extern crate structopt_derive;
 extern crate toml;
 
 mod conf;
+mod error;
 mod hdfs;
 mod krb5;
 mod util;
 
 use conf::{ArgConf, Config};
+use error::{ErrorKind, Result};
 use failure::ResultExt;
 use fruently::fluent::Fluent;
 use fruently::forwardable::JsonForwardable;
@@ -37,7 +39,6 @@ use std::path::Path;
 use std::process;
 use std::thread;
 use structopt::StructOpt;
-use util::error::{ErrorKind, Result};
 
 fn create_and_check_fluent<'a>(
     conf: &'a Config,
@@ -143,9 +144,4 @@ fn main() {
     if res.is_err() {
         process::exit(1);
     }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
 }

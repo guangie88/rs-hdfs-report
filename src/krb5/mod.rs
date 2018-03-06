@@ -5,8 +5,8 @@ use std::borrow::Cow;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 
+use super::error::{ErrorKind, Result};
 use super::util::{extract_child_stdout, extract_output_stdout_str};
-use super::util::error::{ErrorKind, Result};
 
 const ECHO: &str = "echo";
 const KINIT: &str = "kinit";
