@@ -13,7 +13,7 @@ tag = "app.rs-hdfs-report"
 try_count = 1
 multiplier = 1
 # file path to store records when failing to send into Fluent server
-store_file_path = "/tmp/.extract-log-store-file-path"
+store_file_path = "/tmp/.rs-hdfs-report-store-file-path"
 
 [hdfs]
 path = "/"

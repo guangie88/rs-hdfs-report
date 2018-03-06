@@ -1,5 +1,7 @@
 # `rs-hdfs-report`
 
+[![Build Status](https://travis-ci.org/guangie88/rs-hdfs-report.svg?branch=develop)](https://travis-ci.org/guangie88/rs-hdfs-report)
+
 Rust project to perform `hdfs dfs -df` command call to the Kerberos protected
 HDFS server to. Relies heavily on the built Docker environment to work since the
 project assumes `hdfs` and `kinit` executables to be present.
