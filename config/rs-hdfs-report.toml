@@ -1,0 +1,33 @@
+[general]
+# optional
+log_conf_path = "./config/rs-hdfs-report-log.yml"
+lock_file = "/var/lock/rs-hdfs-report.lock"
+# optional
+repeat_delay = "5 s"
+
+[fluentd]
+address = "localhost:24224"
+tag = "app.rs-hdfs-report"
+# retry_interval = exp ** (multiplier + try_count)
+# https://github.com/jimmycuadra/retry/blob/v0.4.0/src/lib.rs#L142-L143
+try_count = 1
+multiplier = 1
+# file path to store records when failing to send into Fluent server
+store_file_path = "/tmp/.extract-log-store-file-path"
+
+[hdfs]
+path = "/"
+
+[kinit]
+# For Password
+login = "xenon"
+# For Keytab
+# login = "hdfs/localhost@esciencecenter.nl"
+
+[kinit.auth]
+# type is "Password" / "Keytab"
+type = "Password"
+value = "javagat"
+
+# type = "Keytab"
+# value = "./server/hdfs.keytab"
