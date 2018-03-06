@@ -42,7 +42,7 @@ impl Hdfs {
 
         lazy_static! {
             static ref CAP_LINE_RE: Regex = Regex::new(
-                r"^Filesystem\s+Size\s+Used\s+Available\s+Use%\s+(?P<v>.+)$"
+                r"^Filesystem\s+Size\s+Used\s+Available\s+Use%\s+(?P<v>.+)\s"
             ).unwrap();
             static ref VALUES_RE: Regex = Regex::new(
                 r"^(?P<fs>\S+)\s+(?P<s>\S+)\s+(?P<u>\S+)\s+\S+\s+\S+%.*$"

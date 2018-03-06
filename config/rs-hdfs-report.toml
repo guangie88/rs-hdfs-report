@@ -5,10 +5,18 @@ lock_file = "/var/lock/rs-hdfs-report.lock"
 # optional
 repeat_delay = "5 s"
 
+[fluentd]
+address = "localhost:24224"
+tag = "app.rs-hdfs-report"
+# retry_interval = exp ** (multiplier + try_count)
+# https://github.com/jimmycuadra/retry/blob/v0.4.0/src/lib.rs#L142-L143
+try_count = 1
+multiplier = 1
+# file path to store records when failing to send into Fluent server
+store_file_path = "/tmp/.extract-log-store-file-path"
+
 [hdfs]
 path = "/"
-matches = ['.+/file.']
-copy_to = "./dst"
 
 [kinit]
 # For Password

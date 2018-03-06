@@ -40,8 +40,6 @@ pub struct GeneralConfig {
 #[derive(Deserialize, Debug)]
 pub struct HdfsConfig {
     pub path: String,
-    pub matches: Vec<String>,
-    pub copy_to: String,
 }
 
 #[derive(Deserialize, Debug)]
