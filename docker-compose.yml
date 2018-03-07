@@ -5,4 +5,4 @@ services:
     container_name: rs-hdfs-report
     network_mode: host
     volumes:
-      - './servers/hdfs-krb5/krb5.keytab:/app/servers/hdfs-krb5/krb5.keytab'
+      - './etc/krb5.keytab:/app/etc/krb5.keytab'

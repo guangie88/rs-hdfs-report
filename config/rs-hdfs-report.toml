@@ -30,4 +30,4 @@ login = "hdfs/localhost@esciencecenter.nl"
 # value = "javagat"
 
 type = "Keytab"
-value = "./servers/hdfs-krb5/krb5.keytab"
+value = "./etc/krb5.keytab"
