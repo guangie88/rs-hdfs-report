@@ -110,7 +110,7 @@ where
     pub inner: E,
 }
 
-#[derive(Debug, Fail, Getters)]
+#[derive(Debug, Fail)]
 #[fail(display = "{{ pattern: {}, target: {} }}", pattern, target)]
 pub struct RegexCaptureError {
     pattern: String,

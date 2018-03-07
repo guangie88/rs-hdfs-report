@@ -1,8 +1,6 @@
 #![cfg_attr(feature = "cargo-clippy", deny(warnings))]
 
 #[macro_use]
-extern crate derive_getters;
-#[macro_use]
 extern crate failure;
 extern crate fruently;
 #[macro_use]
