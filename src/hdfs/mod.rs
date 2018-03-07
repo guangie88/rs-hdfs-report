@@ -1,15 +1,11 @@
-extern crate chrono;
-extern crate json_collection;
-extern crate which;
-
 use failure::{Fail, ResultExt};
+use json_collection::{Storage, StorageBuilder};
 use regex::Regex;
-use self::json_collection::{Storage, StorageBuilder};
+use which;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::str;
-
-use super::error::{ErrorKind, RegexCaptureError, Result};
+use super::error::{ErrorKind, RegexCaptureError, Result, TargetStringError};
 use super::util::extract_output_stdout_str;
 
 const HDFS: &str = "hdfs";
@@ -38,25 +34,29 @@ where
     }
 
     let caps = CAP_LINE_RE.captures(df_str).ok_or_else(|| {
-        RegexCaptureError::new(&CAP_LINE_RE, df_str.to_owned())
+        RegexCaptureError::new(&CAP_LINE_RE, df_str)
             .context(ErrorKind::RegexInitialHdfsDfCap)
     })?;
 
     let value_str = &caps["v"];
 
     let values = VALUES_RE.captures(value_str).ok_or_else(|| {
-        RegexCaptureError::new(&VALUES_RE, value_str.to_owned())
+        RegexCaptureError::new(&VALUES_RE, value_str)
             .context(ErrorKind::RegexHdfsDfValuesCap)
     })?;
 
-    let filesystem = values["fs"].to_owned();
+    let filesystem = &values["fs"];
+    let used_str = &values["u"];
+    let available_str = &values["a"];
 
-    let used = values["u"]
+    let used = used_str
         .parse::<u64>()
+        .map_err(|e| TargetStringError::new(used_str, e))
         .context(ErrorKind::ParseHdfsDfUsedValue)?;
 
-    let available = values["a"]
+    let available = available_str
         .parse::<u64>()
+        .map_err(|e| TargetStringError::new(available_str, e))
         .context(ErrorKind::ParseHdfsDfSizeValue)?;
 
     Ok(StorageBuilder::default()

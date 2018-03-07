@@ -7,7 +7,7 @@ repeat_delay = "5 s"
 
 [fluentd]
 address = "localhost:24224"
-tag = "app.rs-hdfs-report"
+tag = "app.rs_hdfs_report"
 # retry_interval = exp ** (multiplier + try_count)
 # https://github.com/jimmycuadra/retry/blob/v0.4.0/src/lib.rs#L142-L143
 try_count = 1
