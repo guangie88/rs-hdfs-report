@@ -89,14 +89,36 @@ pub struct Error {
 #[derive(Debug, Fail)]
 #[fail(display = "{{ code: {:?}, msg: {} }}", code, msg)]
 pub struct CodeMsgError {
-    pub code: Option<i32>,
-    pub msg: String,
+    code: Option<i32>,
+    msg: String,
+}
+
+impl CodeMsgError {
+    pub fn new<C, S>(code: C, msg: S) -> CodeMsgError
+    where
+        C: Into<Option<i32>>,
+        S: Into<String>,
+    {
+        CodeMsgError {
+            code: code.into(),
+            msg: msg.into(),
+        }
+    }
 }
 
 #[derive(Debug, Fail)]
 #[fail(display = "{{ msg: {} }}", msg)]
 pub struct MsgError {
-    pub msg: String,
+    msg: String,
+}
+
+impl MsgError {
+    pub fn new<S>(msg: S) -> MsgError
+    where
+        S: Into<String>,
+    {
+        MsgError { msg: msg.into() }
+    }
 }
 
 #[derive(Debug, Fail)]
@@ -105,9 +127,24 @@ pub struct PathError<E>
 where
     E: Fail,
 {
-    pub path: PathBuf,
+    path: PathBuf,
     #[cause]
-    pub inner: E,
+    inner: E,
+}
+
+impl<E> PathError<E>
+where
+    E: Fail,
+{
+    pub fn new<P>(path: P, inner: E) -> PathError<E>
+    where
+        P: Into<PathBuf>,
+    {
+        PathError {
+            path: path.into(),
+            inner,
+        }
+    }
 }
 
 #[derive(Debug, Fail)]
@@ -126,6 +163,28 @@ impl RegexCaptureError {
             pattern: pattern.as_str().to_owned(),
             target: target.into(),
         }
+    }
+}
+
+#[derive(Debug, Fail)]
+#[fail(display = "{{ value: {}, inner: {} }}", value, inner)]
+pub struct ValueError<T, E>
+where
+    T: Display,
+    E: Fail,
+{
+    value: T,
+    #[cause]
+    inner: E,
+}
+
+impl<T, E> ValueError<T, E>
+where
+    T: Display,
+    E: Fail,
+{
+    pub fn new(value: T, inner: E) -> ValueError<T, E> {
+        ValueError { value, inner }
     }
 }
 

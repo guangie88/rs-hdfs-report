@@ -30,7 +30,7 @@ mod krb5;
 mod util;
 
 use conf::{ArgConf, Config};
-use error::{ErrorKind, Result};
+use error::{ErrorKind, PathError, Result};
 use failure::ResultExt;
 use fruently::fluent::Fluent;
 use fruently::forwardable::JsonForwardable;
@@ -70,6 +70,19 @@ fn create_and_check_fluent<'a>(
     Ok(fluent)
 }
 
+fn read_config_file<'a, P>(conf_path: P) -> Result<Config<'a>>
+where
+    P: AsRef<Path>,
+{
+    let conf_path = conf_path.as_ref();
+
+    let config: Config = toml::from_str(&util::read_from_file(conf_path)?)
+        .map_err(|e| PathError::new(conf_path, e))
+        .context(ErrorKind::TomlConfigParse)?;
+
+    Ok(config)
+}
+
 fn run_impl(conf: &Config) -> Result<()> {
     let fluent = create_and_check_fluent(conf)?;
 
@@ -104,9 +117,7 @@ fn run(conf: &Config) -> Result<()> {
 
 fn init<'a>() -> Result<Config<'a>> {
     let arg_conf = ArgConf::from_args();
-
-    let conf: Config = toml::from_str(&util::read_from_file(&arg_conf.conf)?)
-        .context(ErrorKind::TomlConfigParse)?;
+    let conf: Config = read_config_file(&arg_conf.conf)?;
 
     match conf.general.log_conf_path {
         Some(ref log_conf_path) => {
