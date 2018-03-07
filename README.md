@@ -16,17 +16,17 @@ for demonstration purposes.
 
 ## Commands to run for server
 
-Read the instructions in `server/README.md`.
+Read the instructions in <https://github.com/guangie88/storage-report-test>.
 
 ## Commands to run for client
 
 ```bash
-docker-compose up --build app
+docker-compose up --build -d app
 ```
 
 The above command will build the Docker image with the statically compiled
 `rs-hdfs-report` executable, together with `config/rs-hdfs-report.toml` and
-`config/rs-hfds-to-local-log.yml`.
+`config/rs-hdfs-report-log.yml`.
 
 The above command is only useful if there is a corresponding HDFS server and a
 Fluentd server.
