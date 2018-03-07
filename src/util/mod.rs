@@ -51,7 +51,12 @@ pub fn extract_output_stdout_str(output: Output) -> Result<String> {
 
 pub fn read_from_file<P: AsRef<Path>>(p: P) -> Result<String> {
     let mut buf = String::new();
-    let mut file = File::open(p.as_ref()).context(ErrorKind::FileIo)?;
+    let p = p.as_ref();
+
+    let mut file = File::open(p)
+        .map_err(|e| PathError::new(p.to_string_lossy().to_string(), e))
+        .context(ErrorKind::FileIo)?;
+
     file.read_to_string(&mut buf).context(ErrorKind::FileIo)?;
     Ok(buf)
 }

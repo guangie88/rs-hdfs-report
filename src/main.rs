@@ -123,6 +123,7 @@ fn init<'a>() -> Result<Config<'a>> {
     match conf.general.log_conf_path {
         Some(ref log_conf_path) => {
             log4rs::init_file(log_conf_path, Default::default())
+                .map_err(|e| PathError::new(log_conf_path, e))
                 .context(ErrorKind::SpecializedLoggerInit)?
         }
         None => simple_logger::init().context(ErrorKind::DefaultLoggerInit)?,
