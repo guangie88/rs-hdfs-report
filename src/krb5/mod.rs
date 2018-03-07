@@ -1,10 +1,8 @@
-extern crate which;
-
 use failure::ResultExt;
+use which;
 use std::borrow::Cow;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
-
 use super::error::{ErrorKind, Result};
 use super::util::{extract_child_stdout, extract_output_stdout_str};
 

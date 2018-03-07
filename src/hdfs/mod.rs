@@ -1,14 +1,10 @@
-extern crate chrono;
-extern crate json_collection;
-extern crate which;
-
 use failure::{Fail, ResultExt};
+use json_collection::{Storage, StorageBuilder};
 use regex::Regex;
-use self::json_collection::{Storage, StorageBuilder};
+use which;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::str;
-
 use super::error::{ErrorKind, RegexCaptureError, Result, TargetStringError};
 use super::util::extract_output_stdout_str;
 

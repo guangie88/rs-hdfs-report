@@ -1,14 +1,10 @@
-extern crate fs2;
-extern crate structopt;
-
 use failure::{Fail, ResultExt};
-use self::fs2::FileExt;
-use super::error::{CodeMsgError, Error, ErrorKind, MsgError, PathError, Result};
-
+use fs2::FileExt;
 use std::fs::{File, OpenOptions};
 use std::io::Read;
 use std::path::Path;
 use std::process::{Child, ChildStdout, Output};
+use super::error::{CodeMsgError, Error, ErrorKind, MsgError, PathError, Result};
 
 pub fn extract_child_stdout(child: Child) -> Result<ChildStdout> {
     let (stdout, stderr) = (child.stdout, child.stderr);
