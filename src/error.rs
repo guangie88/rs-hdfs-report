@@ -167,24 +167,28 @@ impl RegexCaptureError {
 }
 
 #[derive(Debug, Fail)]
-#[fail(display = "{{ value: {}, inner: {} }}", value, inner)]
-pub struct ValueError<T, E>
+#[fail(display = "{{ target: {}, inner: {} }}", target, inner)]
+pub struct TargetStringError<E>
 where
-    T: Display,
     E: Fail,
 {
-    value: T,
+    target: String,
     #[cause]
     inner: E,
 }
 
-impl<T, E> ValueError<T, E>
+impl<E> TargetStringError<E>
 where
-    T: Display,
     E: Fail,
 {
-    pub fn new(value: T, inner: E) -> ValueError<T, E> {
-        ValueError { value, inner }
+    pub fn new<S>(target: S, inner: E) -> TargetStringError<E>
+    where
+        S: Into<String>,
+    {
+        TargetStringError {
+            target: target.into(),
+            inner,
+        }
     }
 }
 
@@ -223,5 +227,51 @@ impl From<ErrorKind> for Error {
 impl From<Context<ErrorKind>> for Error {
     fn from(inner: Context<ErrorKind>) -> Error {
         Error { inner }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use failure::Fail;
+
+    #[cfg_attr(feature = "cargo-clippy", allow(empty_line_after_outer_attr))]
+    #[derive(Copy, Clone, Eq, PartialEq, Debug, Fail)]
+    #[fail(display = "Fake error kind")]
+    pub struct FakeErrorKind;
+
+    #[derive(Debug, Fail)]
+    #[fail(display = "Fake error")]
+    struct FakeError;
+
+    #[test]
+    fn test_code_msg_error_trait() {
+        CodeMsgError::new(None, "Fake").context(FakeErrorKind);
+    }
+
+    #[test]
+    fn test_msg_error_trait() {
+        MsgError::new("Fake").context(FakeErrorKind);
+    }
+
+    #[test]
+    fn test_path_error_trait() {
+        PathError::new("Fake path", FakeError).context(FakeErrorKind);
+    }
+
+    #[test]
+    fn test_regex_capture_error_trait() {
+        let fake_regex = Regex::new("");
+        assert!(fake_regex.is_ok());
+        let fake_regex = fake_regex.unwrap();
+
+        RegexCaptureError::new(&fake_regex, "Fake target")
+            .context(FakeErrorKind);
+    }
+
+    #[test]
+    fn test_target_string_error_trait() {
+        TargetStringError::new("Fake", FakeError).context(FakeErrorKind);
     }
 }

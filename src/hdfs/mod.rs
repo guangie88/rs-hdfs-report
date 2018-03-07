@@ -9,7 +9,7 @@ use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::str;
 
-use super::error::{ErrorKind, RegexCaptureError, Result, ValueError};
+use super::error::{ErrorKind, RegexCaptureError, Result, TargetStringError};
 use super::util::extract_output_stdout_str;
 
 const HDFS: &str = "hdfs";
@@ -55,12 +55,12 @@ where
 
     let used = used_str
         .parse::<u64>()
-        .map_err(|e| ValueError::new(used_str.to_owned(), e))
+        .map_err(|e| TargetStringError::new(used_str, e))
         .context(ErrorKind::ParseHdfsDfUsedValue)?;
 
     let available = available_str
         .parse::<u64>()
-        .map_err(|e| ValueError::new(available_str.to_owned(), e))
+        .map_err(|e| TargetStringError::new(available_str, e))
         .context(ErrorKind::ParseHdfsDfSizeValue)?;
 
     Ok(StorageBuilder::default()
