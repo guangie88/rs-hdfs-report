@@ -33,62 +33,23 @@ mod krb5;
 
 use conf::{ArgConf, Config};
 use failure::ResultExt;
-use fruently::fluent::Fluent;
 use fruently::forwardable::JsonForwardable;
-use fruently::retry_conf::RetryConf;
 use hdfs::Hdfs;
 use krb5::Krb5;
 use mega_coll::error::{ErrorKind, Result};
 use mega_coll::error::custom::PathError;
-use mega_coll::util::fs::{lock_file, read_from_file};
-use std::path::Path;
+use mega_coll::util::app::{create_and_check_fluent, print_run_status,
+                           read_config_file};
+use mega_coll::util::fs::lock_file;
 use std::process;
 use std::thread;
 use structopt::StructOpt;
 
-fn create_and_check_fluent<'a>(
-    conf: &'a Config,
-) -> Result<Fluent<'a, &'a String>> {
-    let fluent_conf = RetryConf::new()
-        .max(conf.fluentd.try_count)
-        .multiplier(conf.fluentd.multiplier);
-
-    let fluent_conf = match conf.fluentd.store_file_path {
-        Some(ref store_file_path) => {
-            fluent_conf.store_file(Path::new(store_file_path).to_owned())
-        }
-        None => fluent_conf,
-    };
-
-    let fluent = Fluent::new_with_conf(
-        &conf.fluentd.address,
-        conf.fluentd.tag.as_str(),
-        fluent_conf,
-    );
-
-    fluent
-        .clone()
-        .post("rs-hdfs-report-log-initialization")
-        .context(ErrorKind::FluentInitCheck)?;
-
-    Ok(fluent)
-}
-
-fn read_config_file<'a, P>(conf_path: P) -> Result<Config<'a>>
-where
-    P: AsRef<Path>,
-{
-    let conf_path = conf_path.as_ref();
-
-    let config: Config = toml::from_str(&read_from_file(conf_path)?)
-        .map_err(|e| PathError::new(conf_path, e))
-        .context(ErrorKind::TomlConfigParse)?;
-
-    Ok(config)
-}
-
 fn run_impl(conf: &Config) -> Result<()> {
-    let fluent = create_and_check_fluent(conf)?;
+    let fluent = create_and_check_fluent(
+        &conf.fluentd,
+        "rs-hdfs-report-log-initialization",
+    )?;
 
     let krb5 = Krb5::new()?;
     let hdfs = Hdfs::new()?;
@@ -112,7 +73,7 @@ fn run(conf: &Config) -> Result<()> {
 
     match conf.general.repeat_delay {
         Some(repeat_delay) => loop {
-            print_run_status(&run_impl(conf));
+            print_run_status(&run_impl(conf), "Session completed!");
             thread::sleep(repeat_delay)
         },
         None => run_impl(conf),
@@ -135,15 +96,6 @@ fn init<'a>() -> Result<Config<'a>> {
     Ok(conf)
 }
 
-fn print_run_status(res: &Result<()>) {
-    match *res {
-        Ok(_) => info!("Session completed!"),
-        Err(ref e) => {
-            error!("{}", e);
-        }
-    }
-}
-
 fn main() {
     let conf_res = init();
 
@@ -157,7 +109,7 @@ fn main() {
         run(&conf)
     });
 
-    print_run_status(&res);
+    print_run_status(&res, "Program completed!");
 
     if res.is_err() {
         process::exit(1);
