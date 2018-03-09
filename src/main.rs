@@ -12,6 +12,7 @@ extern crate lazy_static;
 #[macro_use]
 extern crate log;
 extern crate log4rs;
+extern crate mega_coll;
 extern crate regex;
 extern crate serde;
 #[macro_use]

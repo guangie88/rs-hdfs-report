@@ -13,7 +13,7 @@ lazy_static = "=1.0.0"
 log = "=0.4.1"
 log4rs = "=0.8.0"
 json-collection = { git = "https://github.com/guangie88/rs-json-collection.git", tag = "v0.1.1" }
-which = { git = "https://github.com/fangyuanziti/which-rs.git", rev = "53d5123" }
+mega-coll = { git = "https://github.com/guangie88/rs-mega-coll.git", branch = "init" }
 regex = "=0.2.5"
 serde = "=1.0.27"
 serde_derive = "=1.0.27"
@@ -22,6 +22,7 @@ simple_logger = "=0.5.0"
 structopt = "=0.2.4"
 structopt-derive = "=0.2.4"
 toml = "=0.4.5"
+which = { git = "https://github.com/fangyuanziti/which-rs.git", rev = "53d5123" }
 
 [dev-dependencies]
 indoc = "=0.2.3"

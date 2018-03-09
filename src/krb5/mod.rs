@@ -1,6 +1,6 @@
 use failure::ResultExt;
+use mega_coll::conf::krb5::Auth;
 use which;
-use std::borrow::Cow;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use super::error::{ErrorKind, Result};
@@ -12,13 +12,6 @@ const KINIT: &str = "kinit";
 #[derive(Debug)]
 pub struct Krb5 {
     kinit: PathBuf,
-}
-
-#[derive(Deserialize, Debug)]
-#[serde(tag = "type", content = "value")]
-pub enum Auth<'a> {
-    Password(Cow<'a, str>),
-    Keytab(Cow<'a, str>),
 }
 
 impl Krb5 {
