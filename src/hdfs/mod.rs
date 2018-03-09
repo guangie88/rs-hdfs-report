@@ -4,10 +4,10 @@ use mega_coll::error::{ErrorKind, Result};
 use mega_coll::error::custom::{RegexCaptureError, TargetStringError};
 use mega_coll::util::process;
 use regex::Regex;
-use which;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::str;
+use which;
 
 const HDFS: &str = "hdfs";
 const DFS: &str = "dfs";

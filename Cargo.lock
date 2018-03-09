@@ -303,14 +303,12 @@ dependencies = [
 [[package]]
 name = "mega-coll"
 version = "0.1.0"
-source = "git+https://github.com/guangie88/rs-mega-coll.git?branch=init#dffd433a8e2ef259673e0bc13ff6f2de64e0e295"
+source = "git+https://github.com/guangie88/rs-mega-coll.git?branch=init#486bceda4b58e4559b0bb5b550ee672db0533cec"
 dependencies = [
- "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure_derive 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "fruently 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "fs2 0.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "json-collection 0.1.1 (git+https://github.com/guangie88/rs-json-collection.git?tag=v0.1.1)",
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "log4rs 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -319,10 +317,7 @@ dependencies = [
  "serde-humantime 0.1.1 (git+https://github.com/tailhook/serde-humantime.git?rev=f76450e)",
  "serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "simple_logger 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "structopt 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "structopt-derive 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.4.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "which 2.0.0 (git+https://github.com/fangyuanziti/which-rs.git?rev=53d5123)",
 ]
 
 [[package]]
@@ -529,11 +524,8 @@ dependencies = [
 name = "rs-hdfs-report"
 version = "0.1.0"
 dependencies = [
- "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "failure_derive 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "fruently 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "fs2 0.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "indoc 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "json-collection 0.1.1 (git+https://github.com/guangie88/rs-json-collection.git?tag=v0.1.1)",
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -542,12 +534,10 @@ dependencies = [
  "mega-coll 0.1.0 (git+https://github.com/guangie88/rs-mega-coll.git?branch=init)",
  "regex 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde-humantime 0.1.1 (git+https://github.com/tailhook/serde-humantime.git?rev=f76450e)",
  "serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "simple_logger 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "structopt 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "structopt-derive 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "toml 0.4.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "which 2.0.0 (git+https://github.com/fangyuanziti/which-rs.git?rev=53d5123)",
 ]
 

@@ -1,9 +1,7 @@
 #![cfg_attr(feature = "cargo-clippy", deny(warnings))]
 
-extern crate chrono;
 extern crate failure;
 extern crate fruently;
-extern crate fs2;
 extern crate json_collection;
 #[macro_use]
 extern crate lazy_static;
@@ -15,12 +13,10 @@ extern crate regex;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_humantime;
 extern crate simple_logger;
 extern crate structopt;
 #[macro_use]
 extern crate structopt_derive;
-extern crate toml;
 extern crate which;
 
 #[cfg(test)]
