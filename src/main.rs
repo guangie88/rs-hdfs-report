@@ -2,8 +2,6 @@
 
 extern crate chrono;
 extern crate failure;
-#[macro_use]
-extern crate failure_derive;
 extern crate fruently;
 extern crate fs2;
 extern crate json_collection;
@@ -30,19 +28,19 @@ extern crate which;
 extern crate indoc;
 
 mod conf;
-mod error;
 mod hdfs;
 mod krb5;
-mod util;
 
 use conf::{ArgConf, Config};
-use error::{ErrorKind, PathError, Result};
 use failure::ResultExt;
 use fruently::fluent::Fluent;
 use fruently::forwardable::JsonForwardable;
 use fruently::retry_conf::RetryConf;
 use hdfs::Hdfs;
 use krb5::Krb5;
+use mega_coll::error::{ErrorKind, Result};
+use mega_coll::error::custom::PathError;
+use mega_coll::util::fs::{lock_file, read_from_file};
 use std::path::Path;
 use std::process;
 use std::thread;
@@ -82,7 +80,7 @@ where
 {
     let conf_path = conf_path.as_ref();
 
-    let config: Config = toml::from_str(&util::read_from_file(conf_path)?)
+    let config: Config = toml::from_str(&read_from_file(conf_path)?)
         .map_err(|e| PathError::new(conf_path, e))
         .context(ErrorKind::TomlConfigParse)?;
 
@@ -110,7 +108,7 @@ fn run_impl(conf: &Config) -> Result<()> {
 
 fn run(conf: &Config) -> Result<()> {
     // to check if the process is already running as another PID
-    let _flock = util::lock_file(&conf.general.lock_file)?;
+    let _flock = lock_file(&conf.general.lock_file)?;
 
     match conf.general.repeat_delay {
         Some(repeat_delay) => loop {

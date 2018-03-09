@@ -1,12 +1,13 @@
 use failure::{Fail, ResultExt};
 use json_collection::{Storage, StorageBuilder};
+use mega_coll::error::{ErrorKind, Result};
+use mega_coll::error::custom::{RegexCaptureError, TargetStringError};
+use mega_coll::util::process;
 use regex::Regex;
 use which;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::str;
-use super::error::{ErrorKind, RegexCaptureError, Result, TargetStringError};
-use super::util::extract_output_stdout_str;
 
 const HDFS: &str = "hdfs";
 const DFS: &str = "dfs";
@@ -84,7 +85,7 @@ impl Hdfs {
             .output()
             .context(ErrorKind::HdfsDfCmd)?;
 
-        let df_str = extract_output_stdout_str(df)?;
+        let df_str = process::extract_output_stdout_str(df)?;
         parse_df(df_str)
     }
 }

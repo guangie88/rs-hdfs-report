@@ -1,10 +1,10 @@
 use failure::ResultExt;
 use mega_coll::conf::krb5::Auth;
-use which;
+use mega_coll::error::{ErrorKind, Result};
+use mega_coll::util::process::{extract_child_stdout, extract_output_stdout_str};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
-use super::error::{ErrorKind, Result};
-use super::util::{extract_child_stdout, extract_output_stdout_str};
+use which;
 
 const ECHO: &str = "echo";
 const KINIT: &str = "kinit";

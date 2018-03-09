@@ -303,7 +303,7 @@ dependencies = [
 [[package]]
 name = "mega-coll"
 version = "0.1.0"
-source = "git+https://github.com/guangie88/rs-mega-coll.git?branch=init#374ede2d458a9132242c6a9c260e9fc85fa1a81b"
+source = "git+https://github.com/guangie88/rs-mega-coll.git?branch=init#1759f72d5cf85d02c03663e0e89889a4804a59f9"
 dependencies = [
  "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
