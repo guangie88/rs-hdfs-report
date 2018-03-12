@@ -1,7 +1,7 @@
 use failure::{Fail, ResultExt};
-use json_collection::{Storage, StorageBuilder};
 use mega_coll::error::{ErrorKind, Result};
 use mega_coll::error::custom::{RegexCaptureError, TargetStringError};
+use mega_coll::json::{Storage, StorageBuilder};
 use mega_coll::util::process;
 use regex::Regex;
 use std::path::PathBuf;

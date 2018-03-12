@@ -2,7 +2,6 @@
 
 extern crate failure;
 extern crate fruently;
-extern crate json_collection;
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
