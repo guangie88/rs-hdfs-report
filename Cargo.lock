@@ -292,7 +292,7 @@ dependencies = [
 [[package]]
 name = "mega-coll"
 version = "0.2.0"
-source = "git+https://github.com/guangie88/rs-mega-coll.git?branch=more-stuff#0515527b4eb892b7fb8a4af25b8e4c0859cc08bf"
+source = "git+https://github.com/guangie88/rs-mega-coll.git?tag=v0.2.0#69a97e888279cad006bc28700a2528b904ea7e44"
 dependencies = [
  "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "derive-getters 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -521,7 +521,7 @@ dependencies = [
  "indoc 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "mega-coll 0.2.0 (git+https://github.com/guangie88/rs-mega-coll.git?branch=more-stuff)",
+ "mega-coll 0.2.0 (git+https://github.com/guangie88/rs-mega-coll.git?tag=v0.2.0)",
  "regex 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -887,7 +887,7 @@ dependencies = [
 "checksum log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)" = "89f010e843f2b1a31dbd316b3b8d443758bc634bed37aabade59c686d644e0a2"
 "checksum log-mdc 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "a94d21414c1f4a51209ad204c1776a3d0765002c76c6abcb602a6f09f1e881c7"
 "checksum log4rs 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "a1f16090a553200fba94e104310b3e53e71f500fd9db7dc2143055aa3cc7ae63"
-"checksum mega-coll 0.2.0 (git+https://github.com/guangie88/rs-mega-coll.git?branch=more-stuff)" = "<none>"
+"checksum mega-coll 0.2.0 (git+https://github.com/guangie88/rs-mega-coll.git?tag=v0.2.0)" = "<none>"
 "checksum memchr 2.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "796fba70e76612589ed2ce7f45282f5af869e0fdd7cc6199fa1aa1f1d591ba9d"
 "checksum miniz-sys 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)" = "609ce024854aeb19a0ef7567d348aaa5a746b32fb72e336df7fcc16869d7e2b4"
 "checksum num 0.1.42 (registry+https://github.com/rust-lang/crates.io-index)" = "4703ad64153382334aa8db57c637364c322d3372e097840c72000dabdcf6156e"
