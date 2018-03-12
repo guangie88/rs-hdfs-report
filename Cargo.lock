@@ -292,7 +292,7 @@ dependencies = [
 [[package]]
 name = "mega-coll"
 version = "0.2.0"
-source = "git+https://github.com/guangie88/rs-mega-coll.git?branch=more-stuff#ff5eb91ebea228ab9156d03a9fb31a38a64fabec"
+source = "git+https://github.com/guangie88/rs-mega-coll.git?branch=more-stuff#0515527b4eb892b7fb8a4af25b8e4c0859cc08bf"
 dependencies = [
  "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "derive-getters 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
