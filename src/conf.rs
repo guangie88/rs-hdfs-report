@@ -20,7 +20,7 @@ impl app::ArgConf for ArgConfig {
 pub struct Config<'a> {
     pub general: app::Config,
     pub fluentd: fluentd::Config,
-    pub hdfs: hdfs::Config,
+    pub hdfs: hdfs::DfConfig,
     pub kinit: krb5::Config<'a>,
 }
 
