@@ -2,7 +2,7 @@ services:
   - docker
 before_script:
   - set -e
-  - if [[ $TRAVIS_BRANCH = $DEFAULT_BRANCH && "$TRAVIS_PULL_REQUEST" = "false" ]] || [ $TRAVIS_BRANCH = $TRAVIS_TAG ]; then
+  - if [[ "$TRAVIS_BRANCH" = "$DEFAULT_BRANCH" && "$TRAVIS_PULL_REQUEST" = "false" ]] || [ "$TRAVIS_BRANCH" = "$TRAVIS_TAG" ]; then
       DO_DOCKER="true";
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     fi
@@ -16,6 +16,12 @@ before_script:
   - git reset --hard
 script:
   - docker-compose -f docker-compose.lint-test.yml run lint-test
+
+after_script:
+  - if [ "$DO_DOCKER" = "true" ]; then
+      docker push $DOCKER_USERNAME/rs-hdfs-report:$TRAVIS_BRANCH;
+    fi
+
 branches:
   only:
     - develop
