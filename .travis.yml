@@ -24,6 +24,7 @@ script:
 
 after_script:
   - if [ "$DO_DOCKER" = "true" ]; then
+      docker build . -t $DOCKER_USERNAME/rs-hdfs-report:$TRAVIS_BRANCH;
       docker push $DOCKER_USERNAME/rs-hdfs-report:$TRAVIS_BRANCH;
     fi
 
