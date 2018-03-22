@@ -1,6 +1,11 @@
 services:
   - docker
 before_script:
+  - set -e
+  - if [ $TRAVIS_BRANCH = $DEFAULT_BRANCH -a "$TRAVIS_PULL_REQUEST" = "false" -o $TRAVIS_BRANCH = $TRAVIS_TAG ]; then
+      DO_DOCKER="true";
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    fi
   - docker-compose -f docker-compose.lint-test.yml build
   - docker-compose -f docker-compose.build.yml run check
   - docker-compose -f docker-compose.build.yml run fmt
